@@ -1,67 +1,77 @@
 "use client";
 
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { FiChevronLeft, FiChevronRight, FiShoppingCart } from "react-icons/fi";
+import PaymentModal from "@/app/components/Shop/PaymentModal";
 
-const newArrivals = [
-  { name: "Coffee TeaKhoj", category: "Coffee SEEKO", date: "May 25, 2024", price: "5,000៛ ($1.25)", img: "https://thumbs.dreamstime.com/b/iced-coffee-whipped-cream-bubble-tea-pearls-isolated-white-background-refreshing-topped-chocolate-shavings-432814821.jpg" },
-  { name: "Coffee Milk", category: "Coffee SEEKO", date: "May 25, 2024", price: "5,000៛ ($1.25)", img: "https://png.pngtree.com/png-vector/20251204/ourmid/pngtree-iced-latte-in-clear-plastic-cup-with-red-straw-and-ice-png-image_18103196.webp" },
-  { name: "Coffee Kheav", category: "Coffee SEEKO", date: "May 25, 2024", price: "5,000៛ ($1.25)", img: "https://png.pngtree.com/png-clipart/20241110/original/pngtree-isolate-iced-coffee-on-a-white-transparent-background-png-image_16857863.png" },
-  { name: "Passion Cream", category: "Coffee SEEKO", date: "May 25, 2024", price: "5,000៛ ($1.25)", img: "https://www.sunnysyrup.com/proimages/recipe/04Fruit_Tea/15%20Mango%20Green%20Tea%20with%20Cheese%20Cream%20Topping.jpg" },
-  { name: "Coffee Khoj", category: "Coffee SEEKO", date: "May 25, 2024", price: "5,000៛ ($1.25)", img: "https://aeoncambodia.sgp1.digitaloceanspaces.com/image/catalog/product/2323526000001-d.jpg" },
-  { name: "Coffee Doug", category: "Coffee SEEKO", date: "May 25, 2024", price: "5,000៛ ($1.25)", img: "https://thumbs.dreamstime.com/b/iced-coffee-latte-plastic-cup-isolated-white-background-c-clipping-path-included-69896396.jpg" },
-  { name: "Coffee Chocolate", category: "Coffee SEEKO", date: "May 25, 2024", price: "5,000៛ ($1.25)", img: "https://static.vecteezy.com/system/resources/previews/061/482/190/non_2x/clear-plastic-cup-filled-with-double-chocolate-chip-frappe-isolated-on-white-background-photo.jpg" },
+const drinks = [
+  { name: "COFFEE SEEKO", category: "COFFEE SEEKO", date: "May 25, 2024", price: "5,000៛ ($1.25)", img: "14.jpg" },
+  { name: "COFFEE SEEKO", category: "COFFEE SEEKO", date: "May 25, 2024", price: "5,000៛ ($1.25)", img: "15.jpg" },
+  { name: "COFFEE SEEKO", category: "COFFEE SEEKO", date: "May 25, 2024", price: "5,000៛ ($1.25)", img: "17.jpg" },
+  { name: "COFFEE SEEKO", category: "COFFEE SEEKO", date: "May 25, 2024", price: "5,000៛ ($1.25)", img: "15.jpg" },
+  { name: "COFFEE SEEKO", category: "COFFEE SEEKO", date: "May 25, 2024", price: "5,000៛ ($1.25)", img: "16.jpg" },
+  { name: "COFFEE SEEKO", category: "COFFEE SEEKO", date: "May 25, 2024", price: "5,000៛ ($1.25)", img: "3.jpg" },
+  { name: "COFFEE SEEKO", category: "COFFEE SEEKO", date: "May 25, 2024", price: "5,000៛ ($1.25)", img: "3.jpg" },
+  { name: "COFFEE SEEKO", category: "COFFEE SEEKO", date: "May 25, 2024", price: "5,000៛ ($1.25)", img: "3.jpg" },
 ];
 
+type Product = { name: string; price: string; img: string; category: string };
 
-export default function NewArrivalsSection() {
+export default function FeaturedDrinksSection() {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [buying, setBuying] = useState<Product | null>(null);
 
   const scroll = (direction: "left" | "right") => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: direction === "left" ? -300 : 300, behavior: "smooth" });
-    }
+    if (scrollRef.current) scrollRef.current.scrollBy({ left: direction === "left" ? -320 : 320, behavior: "smooth" });
   };
 
   return (
-    <div className="bg-white py-2 sm:py-3 md:py-4 lg:py-4 xl:py-5 2xl:py-5 w-full max-w-400 2xl:max-w-450 mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="relative group">
-        <button onClick={() => scroll("left")} className="absolute -left-4 top-1/2 -translate-y-1/2 z-10 p-2 bg-white rounded-full shadow-lg">
-          <FiChevronLeft size={20} />
-        </button>
-
-        <div ref={scrollRef} className="flex gap-4 overflow-x-auto pb-4 scroll-smooth" style={{ scrollbarWidth: "none" }}>
-          {newArrivals.map((p, index) => (
-            <div
-              key={index}
-              className="shrink-0 w-[29vw] xl:w-[21vw] 2xl:w-[16vw] 3xl:w-[14vw] bg-white border border-gray-100 rounded-2xl p-4 flex flex-col hover:shadow-lg transition-all"
-            >
-              <div className="w-full aspect-square bg-gray-50 rounded-xl mb-3 relative overflow-hidden flex items-center justify-center">
-                <span className="absolute top-2 left-2 z-20 text-[7px] md:text-[8px] font-bold text-white px-1.5 py-0.5 rounded-md bg-green-500">NEW</span>
-                <Image src={p.img} alt={p.name} fill className="object-contain p-2" unoptimized />
-              </div>
-
-              <div className="flex flex-col flex-1">
-                <h3 className="text-[11px] md:text-xs font-extrabold text-gray-800 leading-snug">{p.name}</h3>
-                <p className="text-[9px] md:text-[10px] text-gray-400 font-bold mt-0">{p.category}</p>
-
-                <div className="flex items-center justify-between mt-auto pt-0">
-                  <span className="text-green-500 font-black text-[11px] md:text-xs">{p.price}</span>
-                  <button className="bg-[#fff7e6] text-[#00ffd5] p-1.5 rounded-lg hover:bg-[#f7b500] hover:text-white transition-colors">
-                    <FiShoppingCart size={14} />
-                  </button>
-                </div>
-                <p className="text-[7px] md:text-[8px] text-gray-300 pt-1 font-medium">Arrived: {p.date}</p>
-              </div>
-            </div>
-          ))}
+    <>
+      <section className="py-4 xl:py-6 w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between mb-5">
+          <h2 className="text-xl md:text-2xl font-black text-gray-900 tracking-tight">Featured Drinks</h2>
+          <button className="text-sm md:text-base font-extrabold text-[#4d4d4d] hover:underline">View all →</button>
         </div>
 
-        <button onClick={() => scroll("right")} className="absolute -right-4 top-1/2 -translate-y-1/2 z-10 p-2 bg-white rounded-full shadow-lg">
-          <FiChevronRight size={20} />
-        </button>
-      </div>
-    </div>
+        <div className="relative group">
+          <button onClick={() => scroll("left")}
+            className="absolute -left-4 top-1/2 -translate-y-1/2 z-10 p-2 bg-white rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            <FiChevronLeft size={20} />
+          </button>
+
+          <div ref={scrollRef} className="flex gap-4 overflow-x-auto pb-4 scroll-smooth" style={{ scrollbarWidth: "none" }}>
+            {drinks.map((p, index) => (
+              <div key={index}
+                className="shrink-0 flex flex-col bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 w-[calc(50%-8px)] md:w-[calc(33.333%-11px)] xl:w-[calc(16.666%-14px)]">
+                <div className="relative w-full aspect-square bg-gray-50">
+                  <span className="absolute top-2 left-2 z-10 text-[10px] font-bold text-white bg-green-500 px-2 py-0.5 rounded-md">NEW</span>
+                  <Image src={`/${p.img}`} alt={p.name} fill className="object-contain p-3" unoptimized />
+                </div>
+                <div className="flex flex-col flex-1 p-3">
+                  <h3 className="text-sm md:text-base font-extrabold text-gray-800 leading-snug">{p.name}</h3>
+                  <p className="text-xs md:text-sm text-gray-400 font-bold mt-0.5">{p.category}</p>
+                  <div className="flex items-center justify-between mt-auto pt-2">
+                    <span className="text-green-500 font-black text-sm md:text-base">{p.price}</span>
+                    <button
+                      onClick={() => setBuying({ name: p.name, price: p.price, img: `/${p.img}`, category: p.category })}
+                      className="bg-amber-50 text-amber-500 p-2 rounded-lg hover:bg-amber-500 hover:text-white transition-colors">
+                      <FiShoppingCart size={16} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <button onClick={() => scroll("right")}
+            className="absolute -right-4 top-1/2 -translate-y-1/2 z-10 p-2 bg-white rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            <FiChevronRight size={20} />
+          </button>
+        </div>
+      </section>
+
+      {buying && <PaymentModal product={buying} onClose={() => setBuying(null)} />}
+    </>
   );
 }

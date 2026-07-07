@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { FiSmartphone, FiCreditCard, FiCheckCircle } from "react-icons/fi";
+import { FiSmartphone, FiCreditCard, FiCheckCircle, FiDollarSign, FiBriefcase } from "react-icons/fi";
 
 const paymentMethods = [
-  { id: "aba", name: "ABA Bank", icon: "📱" },
-  { id: "acleda", name: "ACLEDA Bank", icon: "🏦" },
-  { id: "wing", name: "Wing Bank", icon: "💸" },
-  { id: "canadia", name: "Canadia Bank", icon: "💳" },
+  { id: "aba", name: "ABA Bank", icon: <FiSmartphone /> },
+  { id: "acleda", name: "ACLEDA Bank", icon: <FiBriefcase /> },
+  { id: "wing", name: "Wing Bank", icon: <FiDollarSign /> },
+  { id: "canadia", name: "Canadia Bank", icon: <FiCreditCard /> },
 ];
 
 export default function PaymentMethodSection() {
@@ -34,7 +34,6 @@ export default function PaymentMethodSection() {
           </button>
         ))}
       </div>
-
       <button className="w-full mt-6 bg-green-500 text-white font-black py-3 rounded-xl hover:bg-green-600 transition-colors">
         Confirm & Pay
       </button>

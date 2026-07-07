@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/app/components/Navbar";
+import BottomNav from "@/app/components/BottomNav";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,9 +18,9 @@ export const metadata: Metadata = {
   title: "SEEKO COFFEE",
   description: "Coffee Website",
   icons: {
-    icon: "/logo.webp",
-    shortcut: "/logo.webp",
-    apple: "/logo.webp",
+    icon: "/g.png",
+    shortcut: "/g.png",
+    apple: "/g.png",
   },
 };
 
@@ -36,6 +37,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-white">
         <Navbar />
         {children}
+        <BottomNav />
       </body>
     </html>
   );

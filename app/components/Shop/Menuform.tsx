@@ -13,6 +13,7 @@ const categories = [
   { name: "CYANCOFFEE", count: "1.25$", img: "cyan.jpg" },
   { name: "MSROONCOFFEE", count: "1.25$", img: "maroon.jpg" },
   { name: "BROWNCOFFEE", count: "1.25$", img: "brown.jpg" },
+   { name: "BROWNCOFFEE", count: "1.25$", img: "coffeeseekowhite.jpg" },
 ];
 
 export default function Menufrom() {

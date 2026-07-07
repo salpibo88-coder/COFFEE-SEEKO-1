@@ -1,67 +1,51 @@
 "use client";
 import Image from "next/image";
-import { useRef } from "react";
-import { FiChevronLeft, FiChevronRight, FiShoppingCart } from "react-icons/fi";
-const pinacoladaItems = [
-  { name: "Classic Piña Colada", category: "Cocktail Blend", date: "May 25, 2024", price: "8,000៛ ($2.00)", img: "data:image/jpeg;base64,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" },
-  { name: "Frozen Piña Colada", category: "Cocktail Blend", date: "May 25, 2024", price: "9,000៛ ($2.25)", img: "data:image/jpeg;base64,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" },
-  { name: "Coconut Piña Colada", category: "Cocktail Blend", date: "May 25, 2024", price: "9,500៛ ($2.40)", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrIUwr7dFjTcXQSblRGNJiyaXuOf-PBcHJPw&s" },
-  { name: "Mango Piña Colada", category: "Cocktail Blend", date: "May 25, 2024", price: "10,000៛ ($2.50)", img: "https://png.pngtree.com/png-vector/20240628/ourmid/pngtree-glass-of-aperol-spritz-cocktail-isolated-png-image_12915431.png" },
-  { name: "Virgin Piña Colada", category: "Mocktail", date: "May 25, 2024", price: "7,000៛ ($1.75)", img: "https://c8.alamy.com/zooms/9/21dd80775f3a4937a6ed537c642ec984/2c4cgbj.jpg" },
+import { useState } from "react";
+import { FiShoppingCart } from "react-icons/fi";
+import PaymentModal from "@/app/components/Shop/PaymentModal";
+
+const aperolSpritzItems = [
+  { name: "Classic Piña Colada", category: "Coffee SEEKO", date: "May 25, 2024", price: "8,000៛ ($2.00)", img: "https://png.pngtree.com/png-clipart/20250224/original/pngtree-slushies-isolated-on-white-background-png-image_20505580.png" },
+  { name: "Frozen Piña Colada",  category: "Coffee SEEKO", date: "May 25, 2024", price: "9,000៛ ($2.25)", img: "https://png.pngtree.com/png-vector/20240628/ourmid/pngtree-glass-of-aperol-spritz-cocktail-isolated-png-image_12915431.png" },
+  { name: "Coconut Piña Colada", category: "Coffee SEEKO", date: "May 25, 2024", price: "9,500៛ ($2.40)", img: "https://thumbs.dreamstime.com/b/coca-cola-fanta-sprite-glass-bottles-chisinau-moldova-november-white-background-three-drinks-most-popular-brands-65196256.jpg" },
+  { name: "Mango Piña Colada",   category: "Coffee SEEKO", date: "May 25, 2024", price: "10,000៛ ($2.50)", img: "https://png.pngtree.com/png-vector/20240524/ourmid/pngtree-fresh-lemon-soft-drink-in-aluminum-can-on-white-background-for-png-image_12492702.png" },
+  { name: "Virgin Piña Colada",  category: "Coffee SEEKO", date: "May 25, 2024", price: "7,000៛ ($1.75)", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTr-kUc3oO7rWNnWhrOcHkR8fG4kLN_Vi8pvHRk6IcOhJH_ok_IFMWVMpS2&s=10" },
+  { name: "Virgin Piña Colada",  category: "Coffee SEEKO", date: "May 25, 2024", price: "7,000៛ ($1.75)", img: "https://png.pngtree.com/png-vector/20260112/ourlarge/pngtree-monster-energy-much-gooder-can-product-shot-white-background-png-image_18489145.webp" },
 ];
+
 export default function Pinacolada() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const scroll = (direction: "left" | "right") => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: direction === "left" ? -300 : 300, behavior: "smooth" });
-    }
-  };
+  const [buying, setBuying] = useState<{ name: string; price: string; img: string; category: string } | null>(null);
+
   return (
-    <div className="bg-white py-2 sm:py-3 md:py-4 lg:py-4 xl:py-5 2xl:py-5 w-full max-w-400 2xl:max-w-450 mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="relative group">
-        <button
-          onClick={() => scroll("left")}
-          className="absolute -left-4 top-1/2 -translate-y-1/2 z-10 p-2 bg-white rounded-full shadow-lg"
-        >
-          <FiChevronLeft size={20} />
-        </button>
-        <div
-          ref={scrollRef}
-          className="flex gap-2 sm:gap-3 lg:gap-4 overflow-x-auto pb-4 scroll-smooth"
-          style={{ scrollbarWidth: "none" }}
-        >
-          {pinacoladaItems.map((p, index) => (
-            <div
-              key={index}
-              className="shrink-0 w-[28vw] sm:w-[29vw] md:w-[29vw] lg:w-[24vw] xl:w-[18vw] 2xl:w-[14vw] bg-white border border-gray-100 rounded-2xl p-2 sm:p-3 lg:p-4 flex flex-col hover:shadow-lg transition-all"
-            >
-              <div className="w-full aspect-square bg-gray-50 rounded-xl mb-1.5 sm:mb-2 lg:mb-3 relative overflow-hidden flex items-center justify-center">
-                <span className="absolute top-2 left-2 z-20 text-[7px] md:text-[8px] font-bold text-white px-1.5 py-0.5 rounded-md bg-green-500">
-                  NEW
-                </span>
-                <Image src={p.img} alt={p.name} fill className="object-contain p-2" unoptimized />
+    <>
+      <div className="bg-white py-4 xl:py-6 w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Grid Setup: 2 columns mobile, 3 columns tablet, 4 columns desktop */}
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+          {aperolSpritzItems.map((p, i) => (
+            <div key={i} className="flex flex-col bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+              <div className="relative w-full aspect-square bg-gray-50 overflow-hidden">
+                <span className="absolute top-2 left-2 z-10 text-[9px] font-bold text-white bg-green-500 px-2 py-0.5 rounded-md">NEW</span>
+                <Image src={p.img} alt={p.name} fill className="object-contain p-3" unoptimized />
               </div>
-              <div className="flex flex-col flex-1">
-                <h3 className="text-[11px] md:text-xs font-extrabold text-gray-800 leading-snug">{p.name}</h3>
-                <p className="text-[9px] md:text-[10px] text-gray-400 font-bold mt-0">{p.category}</p>
-                <div className="flex items-center justify-between mt-auto pt-0">
-                  <span className="text-green-500 font-black text-[11px] md:text-xs">{p.price}</span>
-                  <button className="bg-[#fff7e6] text-[#00ffd5] p-1.5 rounded-lg hover:bg-[#f7b500] hover:text-white transition-colors">
+              <div className="flex flex-col flex-1 p-3">
+                <h3 className="text-xs md:text-sm font-extrabold text-gray-800 leading-snug line-clamp-1">{p.name}</h3>
+                <p className="text-[10px] md:text-xs text-gray-400 font-bold mt-0.5">{p.category}</p>
+                <div className="flex items-center justify-between mt-auto pt-2">
+                  <span className="text-green-500 font-black text-xs md:text-sm">{p.price}</span>
+                  <button 
+                    onClick={() => setBuying({ name: p.name, price: p.price, img: p.img, category: p.category })} 
+                    className="bg-amber-50 text-amber-500 p-1.5 rounded-lg hover:bg-amber-500 hover:text-white transition-colors"
+                  >
                     <FiShoppingCart size={14} />
                   </button>
                 </div>
-                <p className="text-[7px] md:text-[8px] text-gray-300 pt-1 font-medium">Arrived: {p.date}</p>
+                <p className="text-[8px] text-gray-300 mt-1">Arrived: {p.date}</p>
               </div>
             </div>
           ))}
         </div>
-        <button
-          onClick={() => scroll("right")}
-          className="absolute -right-4 top-1/2 -translate-y-1/2 z-10 p-2 bg-white rounded-full shadow-lg"
-        >
-          <FiChevronRight size={20} />
-        </button>
       </div>
-    </div>
+      {buying && <PaymentModal product={buying} onClose={() => setBuying(null)} />}
+    </>
   );
 }
