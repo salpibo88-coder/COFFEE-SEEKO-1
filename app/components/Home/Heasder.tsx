@@ -41,7 +41,7 @@ export default function CoffeeLanding() {
             Coffee +<br />
             Fresh Brew
           </h1>
-          <p className=" text-lg  sm:text-xl text-white font-medium max-w-md mx-auto lg:mx-0 animate-[fadeIn_2s_ease-in]">
+          <p className=" sm:text-xl text-white font-medium max-w-md mx-auto lg:mx-0 animate-[fadeIn_2s_ease-in]">
             Experience the finest roasted coffee, delivered fresh to your door or available in-store.
           </p>
         </div>

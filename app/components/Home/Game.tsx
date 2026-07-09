@@ -1,188 +1,253 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 
-const COLS = 7;
-const ROWS = 8;
-const CUPS = ['☕', '🧋', '🍵', '🥤', '🫖'];
-
-function makeGrid() {
-  return Array.from({ length: ROWS }, () =>
-    Array.from({ length: COLS }, () => CUPS[Math.floor(Math.random() * CUPS.length)])
-  );
+interface Coffee {
+  id: number;
+  x: number; // percentage from left (0 to 90)
+  y: number; // percentage from top (0 to 100)
+  type: 'espresso' | 'boba' | 'matcha' | 'trap';
+  points: number;
+  speed: number;
 }
 
-function findMatches(grid: string[][]) {
-  const m = Array.from({ length: ROWS }, () => Array(COLS).fill(false));
-  for (let r = 0; r < ROWS; r++)
-    for (let c = 0; c < COLS - 2; c++)
-      if (grid[r][c] && grid[r][c] === grid[r][c+1] && grid[r][c] === grid[r][c+2])
-        m[r][c] = m[r][c+1] = m[r][c+2] = true;
-  for (let c = 0; c < COLS; c++)
-    for (let r = 0; r < ROWS - 2; r++)
-      if (grid[r][c] && grid[r][c] === grid[r+1][c] && grid[r][c] === grid[r+2][c])
-        m[r][c] = m[r+1][c] = m[r+2][c] = true;
-  return m;
-}
+const CUP_TYPES = [
+  { 
+    key: 'espresso', 
+    label: 'Espresso', 
+    points: 10, 
+    speed: 2.0, 
+    src: 'https://static.vecteezy.com/system/resources/previews/030/809/213/non_2x/banana-bunch-fruit-no-background-free-png.png',
+    style: 'border-amber-500 text-amber-100' 
+  },
+  { 
+    key: 'espresso', 
+    label: 'Espresso', 
+    points: 10, 
+    speed: 2.0, 
+    src: 'https://static.vecteezy.com/system/resources/previews/030/809/213/non_2x/banana-bunch-fruit-no-background-free-png.png',
+    style: 'border-amber-500 text-amber-100' 
+  },
+  { 
+    key: 'boba', 
+    label: 'Boba Tea', 
+    points: 15, 
+    speed: 1.5, 
+    src: 'https://static.vecteezy.com/system/resources/thumbnails/036/152/966/small/fruit-strawberry-isolated-with-clipping-path-png.png',
+    style: 'border-orange-400 text-amber-950' 
+  },
+  { 
+    key: 'matcha', 
+    label: 'Matcha', 
+    points: 20, 
+    speed: 2.2, 
+    src: 'https://www.pngarts.com/files/3/Blackberry-Fruit-Transparent-Image.png',
+    style: 'border-emerald-400 text-emerald-50' 
+  },
+  { 
+    key: 'trap', 
+    label: 'Spill', 
+    points: -25, 
+    speed: 4.0, 
+    src: 'https://png.pngtree.com/png-vector/20250320/ourmid/pngtree-rotten-apple-with-mold-and-wormhole-isolated-on-transparent-background-png-image_15795488.png',
+    style: 'border-red-300 text-white animate-pulse' 
+  },
+] as const;
 
-function applyMatches(grid: string[][], matched: boolean[][]): { grid: string[][], score: number } {
-  let score = 0;
-  const result: string[][] = Array.from({ length: ROWS }, () => Array(COLS).fill(''));
-  for (let c = 0; c < COLS; c++) {
-    const col = grid.map((row, r) => { if (matched[r][c]) { score += 10; return ''; } return row[c]; }).filter(Boolean);
-    while (col.length < ROWS) col.unshift(CUPS[Math.floor(Math.random() * CUPS.length)]);
-    for (let r = 0; r < ROWS; r++) result[r][c] = col[r];
-  }
-  return { grid: result, score };
-}
+const GAME_DURATION = 45;
 
-export default function Game() {
-  const [grid, setGrid]           = useState<string[][]>(makeGrid);
-  const [selected, setSelected]   = useState<[number,number]|null>(null);
-  const [score, setScore]         = useState(0);
-  const [best, setBest]           = useState(0);
-  const [moves, setMoves]         = useState(25);
-  const [over, setOver]           = useState(false);
-  const [matched, setMatched]     = useState<boolean[][]>(() => Array.from({ length: ROWS }, () => Array(COLS).fill(false)));
-  const [animating, setAnimating] = useState(false);
+export default function CoffeeCatcher() {
+  const [score, setScore] = useState(0);
+  const [best, setBest] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(GAME_DURATION);
+  const [over, setOver] = useState(false);
+  const [coffees, setCoffees] = useState<Coffee[]>([]);
 
-  const clearMatches = useCallback((g: string[][]) => {
-    const m = findMatches(g);
-    if (!m.some(r => r.some(Boolean))) { setAnimating(false); return; }
-    setMatched(m);
-    setTimeout(() => {
-      const { grid: next, score: gained } = applyMatches(g, m);
-      setGrid(next);
-      setScore(s => { const n = s + gained; setBest(b => Math.max(b, n)); return n; });
-      setMatched(Array.from({ length: ROWS }, () => Array(COLS).fill(false)));
-      setAnimating(false);
-      clearMatches(next);
-    }, 350);
-  }, []);
+  const gameAreaRef = useRef<HTMLDivElement>(null);
+  const idCounter = useRef(0);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => { clearMatches(grid); }, []);
+  // 1. Countdown Timer
+  useEffect(() => {
+    if (over) return;
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          setOver(true);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [over]);
 
-  function handleCell(r: number, c: number) {
-    if (animating || over) return;
-    if (!selected) { setSelected([r, c]); return; }
-    const [sr, sc] = selected;
-    if (sr === r && sc === c) { setSelected(null); return; }
-    if (Math.abs(r - sr) + Math.abs(c - sc) === 1) {
-      const next = grid.map(row => [...row]);
-      [next[sr][sc], next[r][c]] = [next[r][c], next[sr][sc]];
-      const m = findMatches(next);
-      if (m.some(row => row.some(Boolean))) {
-        const newMoves = moves - 1;
-        setMoves(newMoves);
-        setAnimating(true);
-        setGrid(next);
-        setMatched(m);
-        setTimeout(() => {
-          const { grid: g2, score: gained } = applyMatches(next, m);
-          setGrid(g2);
-          setScore(s => { const n = s + gained; setBest(b => Math.max(b, n)); return n; });
-          setMatched(Array.from({ length: ROWS }, () => Array(COLS).fill(false)));
-          if (newMoves <= 0) { setOver(true); setAnimating(false); }
-          else clearMatches(g2);
-        }, 350);
-      }
-    }
-    setSelected(null);
+  // 2. Game Loop (Spawning & Falling Physics)
+  useEffect(() => {
+    if (over) return;
+
+    const spawnInterval = setInterval(() => {
+      const config = CUP_TYPES[Math.floor(Math.random() * CUP_TYPES.length)];
+      const newCoffee: Coffee = {
+        id: idCounter.current++,
+        x: Math.floor(Math.random() * 80) + 10,
+        y: -12,
+        type: config.key,
+        points: config.points,
+        speed: config.speed + Math.random() * 1.2,
+      };
+      setCoffees((prev) => [...prev, newCoffee]);
+    }, 550);
+
+    const animationTicker = setInterval(() => {
+      setCoffees((prev) =>
+        prev
+          .map((c) => ({ ...c, y: c.y + c.speed }))
+          .filter((c) => c.y < 110)
+      );
+    }, 16);
+
+    return () => {
+      clearInterval(spawnInterval);
+      clearInterval(animationTicker);
+    };
+  }, [over]);
+
+  function handleCatch(id: number, points: number) {
+    if (over) return;
+    setCoffees((prev) => prev.filter((c) => c.id !== id));
+    setScore((s) => {
+      const nextScore = Math.max(0, s + points);
+      setBest((b) => Math.max(b, nextScore));
+      return nextScore;
+    });
   }
 
   function restart() {
-    const g = makeGrid();
-    setGrid(g); setScore(0); setMoves(25);
-    setOver(false); setSelected(null);
-    setMatched(Array.from({ length: ROWS }, () => Array(COLS).fill(false)));
-    clearMatches(g);
+    setCoffees([]);
+    setScore(0);
+    setTimeLeft(GAME_DURATION);
+    setOver(false);
+  }
+
+  // Helper component to render the external images cleanly with default sizing
+  function renderCupGraphic(type: 'espresso' | 'boba' | 'matcha' | 'trap') {
+    const config = CUP_TYPES.find((c) => c.key === type);
+    if (!config) return null;
+
+    // Optional animation configurations applied on top of the images
+    const specialEffects = type === 'trap' ? 'animate-spin [animation-duration:5s]' : '';
+
+    return (
+      <div className={`w-14 h-14 relative flex items-center justify-center rounded-xl  p-1 shadow-md ${specialEffects}`}>
+        {/* Using native img here so you don't need to configure remotePatterns in next.config.js for sandbox testing */}
+        <img 
+          src={config.src} 
+          alt={config.label}
+          className="w-full h-full object-contain rounded-lg"
+          draggable="false"
+        />
+      </div>
+    );
   }
 
   return (
     <div
-      className="min-h-screen w-full flex flex-col items-center justify-start py-8 px-4"
-      style={{
-        background: 'linear-gradient(135deg, #1a0a00 0%, #3d1f08 50%, #1a0a00 100%)',
-        backgroundImage: 'radial-gradient(circle, #f5c87a 1px, transparent 1px)',
-        backgroundSize: '28px 28px',
-      }}
+         className="min-h-screen w-full flex flex-col items-center justify-start py-8 px-4 select-none touch-none"
+              style={{
+          backgroundImage: `
+            radial-gradient(circle, rgba(167, 139, 250, 0.18) 1px, transparent 1px),
+            linear-gradient(135deg, #13081f 0%, #43206e 50%, #13081f 100%)
+          `,
+          backgroundSize: '32px 32px, 100% 100%',
+        }}
     >
-      {/* dot grid overlay */}
-      <div className="fixed inset-0 pointer-events-none opacity-5"
-        style={{ backgroundImage: 'radial-gradient(circle, #f5c87a 1.5px, transparent 1.5px)', backgroundSize: '28px 28px' }}
-      />
-
-      {/* ── Top bar ── */}
-      <div className="w-full max-w-lg flex items-center justify-between mb-6">
-        <Link href="/home" className="text-amber-400/60 hover:text-amber-400 text-sm font-bold transition-colors flex items-center gap-1">
+      {/* ── Top Bar ── */}
+      <div className="w-full max-w-lg flex items-center justify-between mb-4">
+        <Link href="/home" className="text-amber-400/60 hover:text-amber-400 text-sm font-bold transition-colors">
           ← Back
         </Link>
         <div className="text-center">
-          <p className="text-amber-400 text-xs font-black uppercase tracking-[0.25em]">☕ Coffee Seeko</p>
-          <h1 className="text-white text-2xl font-black">Coffee Match</h1>
+          <p className="text-amber-400 text-xs font-black uppercase tracking-[0.25em]"> Visual Arcade</p>
+          <h1 className="text-white text-2xl font-black">Coffee Rush</h1>
         </div>
-        <button
-          onClick={restart}
-          className="text-amber-400/60 hover:text-amber-400 text-sm font-bold transition-colors"
-        >
-          New ↺
+        <button onClick={restart} className="text-amber-400/60 hover:text-amber-400 text-sm font-bold transition-colors">
+          Reset ↺
         </button>
       </div>
 
       {/* ── Stats ── */}
-      <div className="w-full max-w-lg grid grid-cols-3 gap-3 mb-6">
+      <div className="w-full max-w-lg grid grid-cols-3 gap-3 mb-4">
         {[
-          { label: 'Score',  value: score,          color: 'text-amber-400' },
-          { label: 'Moves',  value: moves,          color: moves <= 5 ? 'text-red-400 animate-pulse' : 'text-white' },
-          { label: 'Best',   value: best,           color: 'text-emerald-400' },
-        ].map(s => (
-          <div key={s.label} className="bg-white/5 rounded-2xl py-3 text-center border border-white/10">
+          { label: 'Score', value: score, color: 'text-amber-400' },
+          { label: 'Time Left', value: `${timeLeft}s`, color: timeLeft <= 10 ? 'text-red-500 animate-pulse font-extrabold' : 'text-white' },
+          { label: 'Best', value: best, color: 'text-emerald-400' },
+        ].map((s) => (
+          <div key={s.label} className="bg-white rounded-2xl py-3 text-center border border-white/10">
             <p className={`text-3xl font-black leading-none ${s.color}`}>{s.value}</p>
             <p className="text-white/30 text-[9px] uppercase tracking-widest mt-1">{s.label}</p>
           </div>
         ))}
       </div>
 
-      {/* ── Grid ── */}
-      <div className="w-full max-w-lg bg-white/5 rounded-3xl p-3 border border-white/10 shadow-2xl">
-        <div className="grid gap-2" style={{ gridTemplateColumns: `repeat(${COLS}, 1fr)` }}>
-          {grid.map((row, r) =>
-            row.map((cell, c) => {
-              const isSel   = selected?.[0] === r && selected?.[1] === c;
-              const isMatch = matched[r][c];
-              return (
-                <button
-                  key={`${r}-${c}`}
-                  onClick={() => handleCell(r, c)}
-                  className={`aspect-square rounded-xl flex items-center justify-center select-none transition-all duration-200
-                    text-2xl md:text-3xl
-                    ${isSel   ? 'bg-amber-500 scale-110 shadow-xl shadow-amber-500/50 ring-2 ring-amber-300' : 'bg-white/10 hover:bg-white/20 active:scale-95'}
-                    ${isMatch ? 'scale-0 opacity-0' : 'scale-100 opacity-100'}`}
-                >
-                  {cell}
-                </button>
-              );
-            })
-          )}
+      {/* ── Real-Time Graphical Stage ── */}
+      <div
+        ref={gameAreaRef}
+        className="w-full max-w-lg h-[60vh] bg-neutral-950/60 rounded-3xl border border-white/10 shadow-2xl relative overflow-hidden backdrop-blur-sm cursor-crosshair"
+      >
+        {coffees.map((coffee) => (
+          <button
+            key={coffee.id}
+            onClick={() => handleCatch(coffee.id, coffee.points)}
+            className="absolute p-2 active:scale-75 transition-transform duration-75 select-none focus:outline-none"
+            style={{
+              left: `${coffee.x}%`,
+              top: `${coffee.y}%`,
+              transform: 'translate(-50%, -50%)',
+              cursor: 'pointer',
+            }}
+          >
+            {renderCupGraphic(coffee.type)}
+          </button>
+        ))}
+
+        {coffees.length === 0 && !over && (
+          <div className="absolute inset-0 flex items-center justify-center text-white/20 text-xs font-bold uppercase tracking-widest">
+            Tap the items falling down!
+          </div>
+        )}
+      </div>
+
+      {/* ── Visual Menu Legend ── */}
+      <div className="w-full max-w-lg mt-4 bg-white rounded-2xl p-4 border border-white/5 grid grid-cols-4 gap-2 text-center text-[10px] text-white/70 font-bold uppercase tracking-wider">
+        <div className="flex flex-col items-center gap-1">
+          {renderCupGraphic('espresso')}
+          <span className="text-amber-400 mt-1">+10</span>
+        </div>
+        <div className="flex flex-col items-center gap-1">
+          {renderCupGraphic('boba')}
+          <span className="text-orange-300 mt-1">+15</span>
+        </div>
+        <div className="flex flex-col items-center gap-1">
+          {renderCupGraphic('matcha')}
+          <span className="text-emerald-400 mt-1">+20</span>
+        </div>
+        <div className="flex flex-col items-center gap-1">
+          {renderCupGraphic('trap')}
+          <span className="text-red-400 mt-1">-25</span>
         </div>
       </div>
 
-      {/* ── Hint ── */}
-      <p className="text-white/20 text-[10px] uppercase tracking-widest mt-4">
-        Tap a cup · Tap adjacent to swap · Match 3+
-      </p>
-
-      {/* ── Game Over ── */}
+      {/* ── Game Over Screen ── */}
       {over && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-black/85 backdrop-blur-md flex items-center justify-center z-50 p-4">
           <div className="bg-[#1a0a00] border border-amber-800/50 rounded-3xl p-8 text-center max-w-xs w-full shadow-2xl space-y-4">
-            <span className="text-6xl block">☕</span>
-            <h2 className="text-3xl font-black text-white">Game Over!</h2>
-            <p className="text-amber-400 text-2xl font-bold">{score} pts</p>
+            <div className="flex justify-center">{renderCupGraphic('espresso')}</div>
+            <h2 className="text-3xl font-black text-white">Time's Up!</h2>
+            <p className="text-amber-400 text-3xl font-black">{score} pts</p>
             {score >= best && score > 0 && (
-              <p className="text-emerald-400 text-sm font-bold">🏆 New Best Score!</p>
+              <p className="text-emerald-400 text-sm font-bold">🏆 New High Score!</p>
             )}
             <div className="flex flex-col gap-3 pt-2">
               <button
