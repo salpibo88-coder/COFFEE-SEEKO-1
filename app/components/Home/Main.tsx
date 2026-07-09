@@ -2,40 +2,48 @@
 
 import { FiCoffee } from "react-icons/fi";
 
-export default function CoffeeSeekoResponsive() {
+export default function CoffeeSeekoPremium() {
   return (
-    <div className="h-120 bg-[#e1eee1] p-6 md:p-12 lg:p-24 flex items-center justify-center">
+    <section className="h-dvh w-full bg-[#e2eee2] flex items-center justify-center p-6 md:p-12 overflow-hidden">
       
-      {/* Grid container: stays side-by-side on all screens */}
-      <div className="max-w-7xl w-full grid grid-cols-2 gap-6 md:gap-12 lg:gap-16 items-center">
+      {/* Decorative background element */}
+      <div className="absolute top-0 right-0 w-1/3 h-full bg-[#e1eee1] rounded-l-[100px] -z-0 opacity-50 hidden lg:block" />
+
+      <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center z-10">
         
-        {/* Left Column: Image */}
-        <div className="flex justify-center lg:justify-end">
-          <img 
-            src="/form1.png" 
-            alt="Iced Coffee Seeko" 
-            className="w-full max-w-[150px] md:max-w-[300px] lg:max-w-[450px] h-auto object-contain animate-bounce drop-shadow-xl" 
-          />
+        {/* Left Column: Image with "floating" effect */}
+        <div className="flex justify-center lg:justify-end relative">
+          <div className="relative w-[280px] h-[280px] md:w-[450px] md:h-[450px] rounded-3xl  shadow-green-900/10 flex items-center justify-center rotate-3 hover:rotate-0 transition-transform duration-700">
+            <img 
+              src="/form1.png" 
+              alt="Iced Coffee Seeko" 
+              className="w-[80%] h-auto object-contain drop-shadow-2xl" 
+            />
+          </div>
         </div>
 
-        {/* Right Column: Responsive Text Content */}
-        <div className="space-y-3 md:space-y-6">
-          <div className="text-[#0026ff]">
-             <FiCoffee size={32} className="md:size-[48px]" />
+        {/* Right Column: Editorial Typography */}
+        <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
+          <div className="text-[#2d5a27] mb-6">
+             <FiCoffee size={48} strokeWidth={1} />
           </div>
-          {/* Responsive Paragraph: Smaller text (text-xs/sm) for mobile readability */}
-          <p className="text-[11px] sm:text-sm md:text-base lg:text-lg text-gray-600 leading-relaxed max-w-sm">
-            Coffee Seeko combines minimalist, Japanese-inspired architecture with 
-            warm Cambodian hospitality. We use hand-selected Arabica beans, roasted 
-            in small batches to provide a complex, aromatic profile that offers 
-            a true serene escape for every coffee lover.
+          
+          <h1 className="text-4xl md:text-6xl font-serif text-gray-900 mb-6 leading-tight">
+            The Art of <br/> 
+            <span className="text-[#2d5a27] italic">Serene Coffee</span>
+          </h1>
+
+          <p className="text-base md:text-lg text-gray-600 leading-relaxed max-w-md mb-8">
+            Coffee Seeko blends Japanese minimalist architecture with the soul of Cambodia. 
+            Experience hand-selected Arabica beans, roasted in small, deliberate batches.
           </p>
 
-          <button className="bg-[#0026ff] hover:bg-blue-700 text-white font-bold py-2 md:py-4 px-4 md:px-8 rounded-lg text-[10px] md:text-sm lg:text-base transition-all flex items-center gap-2">
-            EXPLORE MENU →
+          <button className="group bg-gray-900 hover:bg-[#2d5a27] text-white px-10 py-4 rounded-full text-sm tracking-widest uppercase transition-all duration-500 flex items-center gap-3 shadow-xl hover:shadow-2xl">
+            Explore Menu
+            <span className="group-hover:translate-x-2 transition-transform duration-300">→</span>
           </button>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

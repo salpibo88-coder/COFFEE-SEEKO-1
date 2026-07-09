@@ -107,25 +107,58 @@ export default function Contact() {
     <div className="w-full font-sans bg-[#fcfaf7]">
 
       {/* ── Hero ── */}
-      <section
-        className="relative w-full py-28 px-8 flex flex-col items-center justify-center text-center overflow-hidden"
-        style={{ background: "linear-gradient(135deg, #0a1a3d 0%, #1565c0 50%, #64b5f6 100%)" }}
-      >
-        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle,#f5c87a 1.5px,transparent 1.5px)', backgroundSize: '28px 28px' }} />
-        <div className="absolute -top-20 -right-20 w-96 h-96 rounded-full bg-amber-500 opacity-10 blur-[100px]" />
-        <div className="absolute -bottom-20 -left-20 w-72 h-72 rounded-full bg-orange-700 opacity-10 blur-[80px]" />
-        <div className="relative z-10 max-w-2xl mx-auto space-y-6">
-          <span className="inline-block text-amber-400 uppercase tracking-[0.35em] text-xs font-bold border border-amber-400/40 px-4 py-1.5 rounded-full bg-amber-400/10">
-            Order & Delivery
-          </span>
-          <h1 className="text-6xl md:text-7xl font-black text-white leading-tight">
-            Order Your<br /><span className="text-amber-400">Coffee Now </span>
-          </h1>
-          <p className="text-white/60 text-lg leading-relaxed">
-            Pick your drinks, drop your location, and we'll deliver right to your door. Welcome to Coffee Seeko!
-          </p>
-        </div>
-      </section>
+      {/* ── Enhanced Hero Section ── */}
+<section className="relative w-full py-24 px-6 lg:px-12 flex flex-col lg:flex-row items-center justify-center gap-12 overflow-hidden bg-stone-900">
+  
+  {/* Background Image with Overlay */}
+  <div className="absolute inset-0">
+    <img 
+      src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80&w=2000" 
+      alt="Coffee Background" 
+      className="w-full h-full object-cover opacity-30"
+    />
+    <div className="absolute inset-0 bg-gradient-to-r from-stone-900 via-stone-900/80 to-transparent" />
+  </div>
+
+  {/* Content (Left) */}
+  <div className="relative z-10 w-full lg:w-1/2 max-w-2xl text-left space-y-6">
+    <span className="inline-block text-amber-400 uppercase tracking-[0.35em] text-xs font-bold border border-amber-400/30 px-4 py-1.5 rounded-full bg-amber-400/10">
+      Premium Delivery
+    </span>
+    <h1 className="text-6xl md:text-8xl font-black text-white leading-[0.9] tracking-tight">
+      Order Your<br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">Coffee Now</span>
+    </h1>
+    <p className="text-stone-300 text-lg leading-relaxed max-w-md">
+      Hand-crafted brews delivered fresh to your door. Experience the taste of Coffee Seeko.
+    </p>
+    <div className="pt-4">
+      <button className="px-8 py-4 bg-amber-500 hover:bg-amber-600 text-stone-900 font-black uppercase tracking-widest rounded-full transition-all hover:scale-105 shadow-lg shadow-amber-500/20">
+        Order Now
+      </button>
+    </div>
+  </div>
+
+  {/* Visual Element (Right) - Image with Float Effect */}
+  <div className="relative z-10 w-full lg:w-1/3 flex justify-center">
+    <div className="relative animate-[float_6s_ease-in-out_infinite]">
+      <img 
+        src="https://static.vecteezy.com/system/resources/previews/027/244/724/non_2x/contact-us-or-the-customer-support-hotline-people-connect-businessman-touching-virtual-icons-doing-to-customer-service-call-center-free-png.png" 
+        alt="Coffee Splash" 
+        className="w-[300px] md:w-[450px] drop-shadow-[0_35px_35px_rgba(0,0,0,0.5)]"
+      />
+      {/* Decorative Glow */}
+      <div className="absolute -z-10 inset-0 bg-amber-500/20 blur-[80px] rounded-full" />
+    </div>
+  </div>
+
+  {/* Keyframe for floating effect (Add this to your CSS or use Tailwind config) */}
+  <style jsx>{`
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-30px); }
+    }
+  `}</style>
+</section>
 
       {/* ── Cafés ── */}
       <section className="py-20 px-8">

@@ -25,7 +25,6 @@ export default function NewArrivalsSection() {
   const scroll = (direction: "left" | "right") => {
     if (scrollRef.current) scrollRef.current.scrollBy({ left: direction === "left" ? -320 : 320, behavior: "smooth" });
   };
-
   return (
     <>
       <section className="py-4 xl:py-6 w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">

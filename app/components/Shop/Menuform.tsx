@@ -31,15 +31,21 @@ export default function Menufrom() {
 
   return (
     <div className="w-full max-w-[1600px] mx-auto py-6 px-4">
-      <div className="mb-6">
-        <div className="flex gap-2">
-          <div className="relative flex-1">
-            <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
-            <input type="text" placeholder="Search products..." className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#37f541]" />
-          </div>
-          <button className="bg-[#a6eb9d] text-[#000000] px-8 py-3 rounded-xl font-bold hover:bg-[#caf5db] transition">Search</button>
-        </div>
+     <div className="mb-6">
+    <div className="flex gap-2">
+      <div className="relative flex-1">
+        <FiSearch className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xs sm:text-sm" />
+        <input 
+          type="text" 
+          placeholder="Search products..." 
+          className="w-full pl-9 sm:pl-12 pr-2 sm:pr-4 py-2 sm:py-3 text-xs sm:text-sm rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#37f541]" 
+        />
       </div>
+      <button className="bg-[#a6eb9d] text-[#000000] px-4 sm:px-8 py-2 sm:py-3 text-xs sm:text-sm rounded-xl font-bold hover:bg-[#caf5db] transition">
+        Search
+      </button>
+    </div>
+  </div>
 
       <div className="relative group">
         <div className="flex justify-between items-center mb-6">
