@@ -117,11 +117,11 @@ export default function Contact() {
       alt="Coffee Background" 
       className="w-full h-full object-cover opacity-30"
     />
-    <div className="absolute inset-0 bg-gradient-to-r from-stone-900 via-stone-900/80 to-transparent" />
+    <div className="absolute inset-0  bg-gradient-to-r from-stone-900 via-stone-900/80 to-transparent" />
   </div>
 
   {/* Content (Left) */}
-  <div className="relative z-10 w-full lg:w-1/2 max-w-2xl text-left space-y-6">
+  <div className="relative z-10 w-full  lg:w-1/2 max-w-2xl text-left space-y-6">
     <span className="inline-block text-amber-400 uppercase tracking-[0.35em] text-xs font-bold border border-amber-400/30 px-4 py-1.5 rounded-full bg-amber-400/10">
       Premium Delivery
     </span>

@@ -40,8 +40,8 @@ const CoffeeSeekoInfo = () => {
         </div>
 
         {/* Tagline Footer */}
-        <div className="mt-20 text-center">
-          <p className="text-xl md:text-2xl text-gray-800 font-medium italic border-t border-gray-200 pt-10">
+        <div className="mt-2 text-center">
+          <p className="text-2xl md:text-2xl text-gray-800 font-medium italic border-t border-gray-200 pt-10">
             Fast, convenient, and budget-friendly — Coffee SEEko is designed to fit your lifestyle.
           </p>
         </div>

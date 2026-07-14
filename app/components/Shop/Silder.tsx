@@ -50,10 +50,10 @@ export default function ProductSlider() {
       <AnimatePresence mode="wait">
         <motion.div
           key={slide.id}
-          initial={{ opacity: 0, x: 60 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -60 }}
-          transition={{ duration: 0.4 }}
+          initial={{ opacity: 0, x: 80, scale: 0.96 }}
+          animate={{ opacity: 1, x: 0, scale: 1 }}
+          exit={{ opacity: 0, x: -80, scale: 0.96 }}
+          transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
         >
           <div className="w-full px-4 sm:px-8 md:px-10 lg:px-14 xl:px-20 2xl:px-28 3xl:px-40">
             <div className="flex flex-row items-center gap-2 sm:gap-4 md:gap-6 lg:gap-8 xl:gap-10 2xl:gap-12">
@@ -128,25 +128,36 @@ export default function ProductSlider() {
                 </div>
               </div>
 
-              {/* IMAGE */}
+              {/* IMAGE WITH FLOATING ANIMATION */}
               <div className="w-1/2 md:w-7/12 flex items-end justify-center">
-                <div className="relative
-                                w-36 h-36
-                                sm:w-60 sm:h-60
-                                md:w-72 md:h-72
-                                lg:w-96 lg:h-96
-                                xl:w-[30rem] xl:h-[30rem]
-                                2xl:w-[38rem] 2xl:h-[38rem]
-                                3xl:w-[48rem] 3xl:h-[48rem]">
+                <motion.div
+                  animate={{
+                    y: [-12, 12, -12],
+                    rotate: [-1.5, 1.5, -1.5],
+                  }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  className="relative
+                             w-36 h-36
+                             sm:w-60 sm:h-60
+                             md:w-72 md:h-72
+                             lg:w-96 lg:h-96
+                             xl:w-[30rem] xl:h-[30rem]
+                             2xl:w-[38rem] 2xl:h-[38rem]
+                             3xl:w-[48rem] 3xl:h-[48rem]"
+                >
                   <Image
                     src={slide.image}
-                    alt="Coffee"
+                    alt="Coffee Splash"
                     fill
                     priority
                     className="object-contain object-bottom drop-shadow-2xl"
                     unoptimized
                   />
-                </div>
+                </motion.div>
               </div>
 
             </div>
@@ -175,7 +186,7 @@ export default function ProductSlider() {
       </button>
 
       {/* Dots */}
-      <div className="absolute  bottom-2 sm:bottom-4 lg:bottom-5 3xl:bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-30">
+      <div className="absolute bottom-2 sm:bottom-4 lg:bottom-5 3xl:bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-30">
         {slides.map((_, i) => (
           <button
             key={i}

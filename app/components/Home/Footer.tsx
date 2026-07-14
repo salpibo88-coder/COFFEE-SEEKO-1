@@ -14,10 +14,10 @@ export default function Footer() {
           
           {/* Navigation Columns */}
           {[
-            { title: "Shop", links: ["All Products", "Coffee Beans", "Equipment", "Subscriptions", "Gift Cards"] },
-            { title: "Learn", links: ["Brew Guides", "Coffee Origins", "Roasting Process", "Workshops", "Sustainability"] },
-            { title: "Help", links: ["FAQ", "Shipping Info", "Returns", "Support", "Contact Us"] },
-            { title: "Account", links: ["Login", "Order History", "My Profile", "Wishlist"] }
+          
+            { title: "Learn", links: ["Brew Guides", "Coffee Origins",  "Workshops", "Sustainability"] },
+            { title: "Help", links: [ "Shipping Info", "Returns", "Support", "Contact Us"] },
+            
           ].map((col) => (
             <div key={col.title} className="md:col-span-1 col-span-1">
               <h4 className="text-amber-600 text-base mb-3 font-bold uppercase tracking-widest">{col.title}</h4>

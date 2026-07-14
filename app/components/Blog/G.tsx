@@ -26,7 +26,7 @@ const defaultArticles: Article[] = [
     title_km: 'របៀបញ៉ាំកាហ្វេឱ្យឆ្ងាញ់',
     excerpt_en: 'Discover the secrets behind a perfect brew every morning.',
     excerpt_km: 'ស្វែងយល់ពី비結ក្ខណ្ឌនៃការញ៉ាំកាហ្វេឱ្យឆ្ងាញ់រាល់ព្រឹក។',
-    image: '/2.jpg',
+    image: 'https://static.vecteezy.com/system/resources/thumbnails/023/617/247/small/coffee-shop-logo-free-png.png',
     category: 'Brewing Guide',
   },
   {
@@ -35,7 +35,7 @@ const defaultArticles: Article[] = [
     title_km: 'គន្លឹះ ៧ ចំណុចធ្វើកាហ្វេ',
     excerpt_en: 'Simple tips that will elevate your daily coffee routine.',
     excerpt_km: 'គន្លឹះងាយៗដើម្បីធ្វើឱ្យកាហ្វេប្រចាំថ្ងៃរបស់អ្នកកាន់តែឆ្ងាញ់។',
-    image: '/5.jpg',
+    image: 'https://png.pngtree.com/png-vector/20260108/ourmid/pngtree-cute-3d-cartoon-boy-holding-steaming-hot-coffee-cup-in-blue-png-image_18434319.webp',
     category: 'Coffee Tips',
   },
   {
@@ -44,7 +44,7 @@ const defaultArticles: Article[] = [
     title_km: 'ពីចំការដល់ពែងរបស់អ្នក',
     excerpt_en: 'The incredible journey of a coffee bean before it reaches you.',
     excerpt_km: 'ការធ្វើដំណើររបស់គ្រាប់កាហ្វេមុនពេលដល់ដៃអ្នក។',
-    image: '/7.jpg',
+    image: 'https://png.pngtree.com/png-vector/20260126/ourmid/pngtree-cute-coffee-mug-character-holding-red-heart-3d-render-png-image_18639182.webp',
     category: 'Coffee Stories',
   },
   {
@@ -53,7 +53,7 @@ const defaultArticles: Article[] = [
     title_km: 'មិញSeekoពណ៌ផ្កាឈូកថ្មី',
     excerpt_en: 'Try our latest seasonal blend — fruity, floral, and unforgettable.',
     excerpt_km: 'សាកល្បងការលាយថ្មីរបស់យើង — ផ្លែឈើ ផ្កា និងមិនអាចភ្លេចបាន។',
-    image: '/9.jpg',
+    image: 'https://static.vecteezy.com/system/resources/thumbnails/066/337/020/small/cartoon-boy-enjoying-a-warm-cup-of-coffee-in-the-morning-free-png.png',
     category: 'New Arrivals',
   },
 ];
@@ -71,7 +71,7 @@ export default function G({ related = defaultArticles, lang = 'en' }: GProps) {
           </h2>
           <Link
             href="/blog"
-            className="text-[#f7b500] text-xs font-semibold flex items-center gap-1.5 hover:gap-2.5 transition-all duration-200"
+            className="text-[#15ff00] text-xs font-semibold flex items-center gap-1.5 hover:gap-2.5 transition-all duration-200"
           >
             {lang === 'km' ? 'ទាំងអស់' : 'View all'} <FaArrowRight size={9} />
           </Link>

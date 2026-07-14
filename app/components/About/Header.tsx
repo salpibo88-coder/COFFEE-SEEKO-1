@@ -54,7 +54,7 @@ export default function AboutHeader() {
                   alt="Coffee shop staff"
                   className="w-80 md:w-96 object-contain drop-shadow-2xl rounded-2xl"
                 />
-                <div className="absolute -top-4 -right-4 bg-amber-500 text-black font-black text-sm px-4 py-2 rounded-full shadow-lg">Since 2018</div>
+                <div className="absolute -top-4 -right-4 bg-[#55e255] text-white font-black text-sm px-4 py-2 rounded-full shadow-lg">Since 2018</div>
                 <div className="absolute -bottom-4 -left-4 bg-[#1a0a00] border border-amber-400/30 text-amber-400 font-bold text-xs px-4 py-2 rounded-full shadow-lg">Phnom Penh, Cambodia</div>
               </div>
             </div>
@@ -65,7 +65,7 @@ export default function AboutHeader() {
 
       {/* Stats Bar */}
       <section className="bg-amber-50 py-10 px-8">
-        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-[#1a1411]">
+        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-[#000000]">
           {[
             { value: '2018', label: 'Founded' },
             { value: '12+', label: 'Bean Origins' },

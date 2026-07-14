@@ -4,15 +4,16 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect, useRef } from 'react';
 import { FiShoppingBag, FiX } from 'react-icons/fi';
+import { Home, Coffee, ClipboardList, ShoppingBag, Newspaper, PhoneCall } from 'lucide-react';
 import Search from '@/app/components/Search';
 
 const navLinks = [
-  { label: 'Home',    href: '/home',    icon: '🏠' },
-  { label: 'About',   href: '/about',   icon: '☕' },
-  { label: 'Menu',    href: '/menu',    icon: '📋' },
-  { label: 'Shop',    href: '/shop',    icon: '🛍️' },
-  { label: 'Blog',    href: '/blog',    icon: '📰' },
-  { label: 'Contact', href: '/contact', icon: '📞' },
+  { label: 'Home',    href: '/home',    icon: <Home className="w-4 h-4 md:w-5 md:h-5 text-[#0000FF]" /> },
+  { label: 'About',   href: '/about',   icon: <Coffee className="w-4 h-4 md:w-5 md:h-5 text-[#15ff00]" /> },
+  { label: 'Menu',    href: '/menu',    icon: <ClipboardList className="w-4 h-4 md:w-5 md:h-5 text-emerald-600" /> },
+  { label: 'Shop',    href: '/shop',    icon: <ShoppingBag className="w-4 h-4 md:w-5 md:h-5 text-[#ff4800]" /> },
+  { label: 'Blog',    href: '/blog',    icon: <Newspaper className="w-4 h-4 md:w-5 md:h-5 text-blue-600" /> },
+  { label: 'Contact', href: '/contact', icon: <PhoneCall className="w-4 h-4 md:w-5 md:h-5 text-rose-600" /> },
 ];
 
 export default function Navbar() {
@@ -140,7 +141,9 @@ export default function Navbar() {
       >
         {/* drawer header */}
         <div className="flex items-center justify-between px-4 md:px-5 py-3 md:py-4 border-b border-[#e8dfd3]">
-          <span className="font-black text-[#3d2b1f] text-xs md:text-sm uppercase tracking-widest">☕ Seeko</span>
+          <span className="font-black text-[#3d2b1f] text-xs md:text-sm uppercase tracking-widest flex items-center gap-1.5">
+            <Coffee className="w-4 h-4 text-amber-700" /> Seeko
+          </span>
           <button onClick={() => setOpen(false)} className="text-[#3d2b1f]/50 hover:text-[#3d2b1f] transition-colors">
             <FiX size={18} className="md:w-5 md:h-5 lg:w-6 lg:h-6" />
           </button>
@@ -158,8 +161,8 @@ export default function Navbar() {
                 className={`flex items-center gap-2.5 md:gap-3 px-3 md:px-4 py-2.5 md:py-3 rounded-xl transition-all duration-150
                   ${active ? 'bg-[#3d2b1f] text-white' : 'text-[#3d2b1f]/60 hover:bg-[#ede8df] hover:text-[#3d2b1f]'}`}
               >
-                <span className={`w-7 h-7 md:w-9 md:h-9 rounded-lg flex items-center justify-center text-sm md:text-base shrink-0
-                  ${active ? 'bg-white/15' : 'bg-[#e8e0d4]'}`}>
+                <span className={`w-7 h-7 md:w-9 md:h-9 rounded-lg flex items-center justify-center shrink-0
+                  ${active ? 'bg-white/15 [&>svg]:text-white' : 'bg-[#e8e0d4]'}`}>
                   {icon}
                 </span>
                 <span className="font-bold text-xs md:text-sm uppercase tracking-widest">{label}</span>
@@ -173,9 +176,9 @@ export default function Navbar() {
           <Link
             href="/shop"
             onClick={() => setOpen(false)}
-            className="flex items-center justify-center gap-1.5 w-full bg-[#3d2b1f] hover:bg-amber-800 active:scale-[0.98] text-white font-black uppercase tracking-widest text-[10px] md:text-xs py-3 md:py-4 rounded-xl transition-all shadow-md"
+            className="flex items-center justify-center gap-2 w-full bg-[#3d2b1f] hover:bg-amber-800 active:scale-[0.98] text-white font-black uppercase tracking-widest text-[10px] md:text-xs py-3 md:py-4 rounded-xl transition-all shadow-md"
           >
-            ☕ Order Now
+            <Coffee className="w-4 h-4 text-amber-400" /> Order Now
           </Link>
         </div>
       </div>
